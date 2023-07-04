@@ -26,8 +26,6 @@ const usersSlice = createSlice({
 			state.error = action.payload;
 		},
 		setSearchText(state, action) {
-			console.log(action.payload);
-			
 			state.searchText = action.payload;
 		}
 	},

@@ -1,7 +1,7 @@
 import Table, { ColumnsType } from 'antd/es/table';
 import { FC } from 'react';
-import { IUser } from '../../@types';
 import { useSelector } from 'react-redux';
+import { IUser } from '../../@types';
 import { RootState } from '../../store';
 
 type Props = {
@@ -43,16 +43,18 @@ const UsersTable: FC<Props> = ({ users }) => {
 		},
 		{
 			title: 'City',
-			dataIndex: 'address.city',
-			key: 'address.city',
+			dataIndex: 'city',
+			key: 'city',
 			render: (_, record) => record.address.city,
-			filters: users.map((user) => {
-				return {
-					text: user.address.city,
-					value: user.address.city,
-				};
-			}),
-			onFilter: (value, record) => record.address.city === value,
+			// Так и не понял, почему фильтры друг с другом не хотят работать, поэтому работает либо поиск, либо фильтр города
+
+			// filters: users.map((user) => {
+			// 	return {
+			// 		text: user.address.city,
+			// 		value: user.address.city,
+			// 	};
+			// }),
+			// onFilter: (value, record) => record.address.city === value,
 		},
 		{
 			title: 'Phone',
