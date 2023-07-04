@@ -1,12 +1,16 @@
 import Table, { ColumnsType } from 'antd/es/table';
 import { FC } from 'react';
 import { IUser } from '../../@types';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 type Props = {
 	users: IUser[];
 };
 
 const UsersTable: FC<Props> = ({ users }) => {
+	const { searchText } = useSelector((state: RootState) => state.users);
+
 	const columns: ColumnsType<IUser> = [
 		{
 			title: 'ID',
@@ -17,6 +21,20 @@ const UsersTable: FC<Props> = ({ users }) => {
 			title: 'Name',
 			dataIndex: 'name',
 			key: 'name',
+			filteredValue: [searchText],
+			onFilter: (value, record) => {
+				return (
+					record.name
+						.toLowerCase()
+						.includes((value as string).toLowerCase()) ||
+					record.email
+						.toLowerCase()
+						.includes((value as string).toLowerCase()) ||
+					record.address.city
+						.toLowerCase()
+						.includes((value as string).toLowerCase())
+				);
+			},
 		},
 		{
 			title: 'Email',
@@ -25,8 +43,8 @@ const UsersTable: FC<Props> = ({ users }) => {
 		},
 		{
 			title: 'City',
-			dataIndex: 'city',
-			key: 'city',
+			dataIndex: 'address.city',
+			key: 'address.city',
 			render: (_, record) => record.address.city,
 			filters: users.map((user) => {
 				return {
